@@ -20,7 +20,7 @@ const Navigation = () => {
       <div className="container flex h-16 items-center justify-between">
         <div className="flex items-center gap-2">
           <FileText className="h-6 w-6 text-truth-600" />
-          <span className="text-xl font-bold tracking-tight">TruthTeller AI</span>
+          <span className="text-xl font-bold tracking-tight">News or Nonsense?</span>
         </div>
         
         {/* Desktop Navigation */}

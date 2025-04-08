@@ -28,7 +28,7 @@ const Demo = () => {
                 <h3 className="text-lg font-medium mb-2">About This Demo</h3>
                 <p className="text-sm text-muted-foreground mb-2">
                   This is a simulation showing how our analysis system works. In a production environment, 
-                  TruthTeller AI would analyze current news against our continuously updated models.
+                  News or Nonsense? would analyze current news against our continuously updated models.
                 </p>
                 <p className="text-sm text-muted-foreground mb-2">
                   Our system was initially benchmarked on <span className="font-medium">FakeNewsNet</span> and <span className="font-medium">LIAR</span> datasets, 

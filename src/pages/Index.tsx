@@ -48,7 +48,7 @@ const Index = () => {
           <div className="container relative z-10">
             <div className="mx-auto max-w-4xl text-center">
               <h1 className="animate-fadeIn text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
-                <span className="text-truth-600">Truth</span>Teller AI
+                <span className="text-truth-600">News</span> or <span className="text-truth-600">Nonsense</span>?
               </h1>
               <p className="mt-6 text-lg text-muted-foreground md:text-xl">
                 Using Bayesian Networks to detect fake news with explainable AI. A transparent approach to fighting misinformation online.

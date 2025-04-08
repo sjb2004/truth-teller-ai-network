@@ -55,7 +55,7 @@ const NewsAnalyzer = () => {
   return (
     <Card className="w-full">
       <CardHeader>
-        <CardTitle>News Authenticity Analyzer</CardTitle>
+        <CardTitle>News or Nonsense? Analyzer</CardTitle>
         <CardDescription>
           Enter a news article or content to analyze its authenticity using Bayesian Networks
         </CardDescription>
