@@ -7,7 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/components/ui/use-toast';
 import { Progress } from '@/components/ui/progress';
 import NetworkGraph from './NetworkGraph';
-import { AlertTriangle, CheckCircle, Info, RefreshCw } from 'lucide-react';
+import { AlertTriangle, CheckCircle, Info, RefreshCw, FileText } from 'lucide-react';
 
 interface AnalysisResult {
   probability: number;
@@ -28,12 +28,29 @@ interface AnalysisResult {
   }>;
 }
 
+// Sample news snippets for users to try
+const exampleSnippets = [
+  {
+    title: "Verified News Example",
+    text: "Scientists at the University of California have published a peer-reviewed study showing that regular exercise can reduce the risk of heart disease by up to 30%. The research involved 10,000 participants over a five-year period and controlled for factors such as diet and genetic predisposition."
+  },
+  {
+    title: "Potential Misinformation Example",
+    text: "BREAKING: Scientists discover that drinking lemon water mixed with baking soda cures all types of cancer in just 7 days! Big Pharma doesn't want you to know this miracle cure that costs just pennies a day. Share before this gets taken down!"
+  },
+  {
+    title: "Current Event Example",
+    text: "The Central Bank announced today that interest rates will remain unchanged following their quarterly meeting. The decision was widely anticipated by financial analysts, who cited stable inflation metrics and moderate economic growth as key factors in the decision."
+  }
+];
+
 const NewsAnalyzer = () => {
   const [newsText, setNewsText] = useState('');
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const { toast } = useToast();
 
+  // Enhanced analysis algorithm that considers more factors for current news
   const analyzeNews = () => {
     if (!newsText.trim()) {
       toast({
@@ -48,21 +65,39 @@ const NewsAnalyzer = () => {
 
     // Simulated analysis - in a real app, this would call an API
     setTimeout(() => {
-      // Mock result
+      // Enhanced mock result with more sophisticated analysis factors
+      const textLength = newsText.length;
+      
+      // Determine analysis factors based on content patterns
+      const hasEmotionalLanguage = /exclaim|urgent|breaking|shocking|miracle|cure|secret|conspiracy/i.test(newsText);
+      const hasSourceCitation = /according to|published by|reported by|study|research|professor|expert|official/i.test(newsText);
+      const hasNumericalData = /\d+%|\d+ percent|statistics|survey|study of \d+/i.test(newsText);
+      
+      // Calculate base probability (more sophisticated in real implementation)
+      let baseProbability = 0.5;
+      baseProbability += hasSourceCitation ? 0.2 : -0.1;
+      baseProbability += hasNumericalData ? 0.15 : -0.05;
+      baseProbability -= hasEmotionalLanguage ? 0.25 : 0;
+      
+      // Clamp probability between 0.05 and 0.95
+      const probability = Math.min(Math.max(baseProbability, 0.05), 0.95);
+      
+      // Mock result with more current-news relevant factors
       const mockResult: AnalysisResult = {
-        probability: Math.random(),
+        probability,
         factorsContributing: [
-          { factor: 'Source Credibility', score: Math.random() * 0.8 + 0.2 },
-          { factor: 'Language Analysis', score: Math.random() * 0.8 + 0.1 },
-          { factor: 'Factual Consistency', score: Math.random() * 0.7 + 0.3 },
-          { factor: 'Emotional Content', score: Math.random() * 0.5 }
+          { factor: 'Source Credibility', score: hasSourceCitation ? Math.random() * 0.3 + 0.6 : Math.random() * 0.4 + 0.2 },
+          { factor: 'Language Analysis', score: hasEmotionalLanguage ? Math.random() * 0.3 + 0.1 : Math.random() * 0.3 + 0.6 },
+          { factor: 'Factual Consistency', score: hasNumericalData ? Math.random() * 0.3 + 0.6 : Math.random() * 0.5 + 0.3 },
+          { factor: 'Topic Relevance', score: Math.random() * 0.6 + 0.3 },
+          { factor: 'Temporal Consistency', score: Math.random() * 0.6 + 0.4 }
         ],
         evidenceNodes: [
-          { id: 'n1', label: 'Source', x: 100, y: 100, probability: Math.random() },
-          { id: 'n2', label: 'Language', x: 200, y: 80, probability: Math.random() },
-          { id: 'n3', label: 'Facts', x: 180, y: 180, probability: Math.random() },
-          { id: 'n4', label: 'Emotion', x: 100, y: 220, probability: Math.random() },
-          { id: 'n5', label: 'Verdict', x: 300, y: 150, probability: Math.random() }
+          { id: 'n1', label: 'Source', x: 100, y: 100, probability: hasSourceCitation ? Math.random() * 0.3 + 0.6 : Math.random() * 0.4 + 0.3 },
+          { id: 'n2', label: 'Language', x: 200, y: 80, probability: hasEmotionalLanguage ? Math.random() * 0.3 + 0.1 : Math.random() * 0.3 + 0.6 },
+          { id: 'n3', label: 'Facts', x: 180, y: 180, probability: hasNumericalData ? Math.random() * 0.3 + 0.6 : Math.random() * 0.4 + 0.4 },
+          { id: 'n4', label: 'Temporal', x: 100, y: 220, probability: Math.random() * 0.3 + 0.6 },
+          { id: 'n5', label: 'Verdict', x: 300, y: 150, probability }
         ],
         evidenceEdges: [
           { from: 'n1', to: 'n5' },
@@ -75,6 +110,11 @@ const NewsAnalyzer = () => {
       setResult(mockResult);
       setIsAnalyzing(false);
     }, 2000);
+  };
+
+  const useExampleText = (index: number) => {
+    setNewsText(exampleSnippets[index].text);
+    setResult(null);
   };
 
   const resetAnalysis = () => {
@@ -110,6 +150,20 @@ const NewsAnalyzer = () => {
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
+          <div className="flex flex-wrap gap-2 mb-2">
+            {exampleSnippets.map((snippet, index) => (
+              <Button 
+                key={index} 
+                variant="outline" 
+                size="sm" 
+                onClick={() => useExampleText(index)}
+              >
+                <FileText className="mr-1 h-4 w-4" />
+                {snippet.title}
+              </Button>
+            ))}
+          </div>
+          
           <Textarea
             placeholder="Paste news content here..."
             className="min-h-[200px] resize-none"
