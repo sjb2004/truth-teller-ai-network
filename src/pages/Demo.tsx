@@ -24,6 +24,17 @@ const Demo = () => {
         <section className="py-12">
           <div className="container">
             <div className="mx-auto max-w-3xl">
+              <div className="mb-6 p-4 bg-muted rounded-lg">
+                <h3 className="text-lg font-medium mb-2">About This Demo</h3>
+                <p className="text-sm text-muted-foreground mb-2">
+                  This is a simulation showing how our analysis system works. In a production environment, 
+                  TruthTeller AI would analyze current news against our trained models.
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  Our system was benchmarked on <span className="font-medium">FakeNewsNet</span> and <span className="font-medium">LIAR</span> datasets, 
+                  containing thousands of verified and fake news articles from various time periods and sources.
+                </p>
+              </div>
               <NewsAnalyzer />
             </div>
           </div>
