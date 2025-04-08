@@ -33,6 +33,22 @@ export const exampleSnippets = [
   {
     title: "Current Event Example",
     text: "The Central Bank announced today that interest rates will remain unchanged following their quarterly meeting. The decision was widely anticipated by financial analysts, who cited stable inflation metrics and moderate economic growth as key factors in the decision."
+  },
+  {
+    title: "Political News",
+    text: "According to three sources familiar with the negotiations, lawmakers are nearing agreement on a bipartisan infrastructure bill that would allocate $550 billion for roads, bridges, and broadband internet. The compromise includes provisions for climate resilience but stops short of more ambitious proposals."
+  },
+  {
+    title: "Technology News",
+    text: "The tech company unveiled its new smartphone model yesterday, featuring an improved camera system and 20% faster processing speeds. Industry analysts from TechReview and ConsumerReports noted that while the improvements are incremental, the device maintains the company's reputation for quality."
+  },
+  {
+    title: "Health News",
+    text: "Health officials are recommending increased vigilance as seasonal flu cases rise 15% compared to the same period last year. Dr. Sarah Johnson of the National Health Institute emphasized that vaccination remains the most effective preventive measure, especially for vulnerable populations."
+  },
+  {
+    title: "Viral Social Media Claim",
+    text: "This ONE secret food is making everyone lose weight INSTANTLY! I lost 30 pounds in just ONE WEEK eating this before bed! Doctors HATE this! Click to discover the secret that's breaking the internet! 😱😱😱"
   }
 ];
 
