@@ -1,12 +1,16 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Database, BookOpen, Home, Info, FileText, MenuIcon, X } from "lucide-react";
+import { Database, BookOpen, Home, Info, FileText, MenuIcon, X, Sun, Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { Switch } from "@/components/ui/switch";
+import { useTheme } from "@/hooks/use-theme";
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { theme, setTheme } = useTheme();
+  const isDark = theme === "dark";
 
   const links = [
     { to: "/", label: "Home", icon: Home },
@@ -35,6 +39,17 @@ const Navigation = () => {
               {link.label}
             </Link>
           ))}
+          
+          {/* Dark Mode Toggle */}
+          <div className="flex items-center gap-2">
+            <Sun className="h-4 w-4 text-muted-foreground" />
+            <Switch 
+              checked={isDark}
+              onCheckedChange={() => setTheme(isDark ? "light" : "dark")}
+              aria-label="Toggle dark mode"
+            />
+            <Moon className="h-4 w-4 text-muted-foreground" />
+          </div>
         </nav>
 
         {/* Mobile menu button */}
@@ -68,6 +83,19 @@ const Navigation = () => {
               {link.label}
             </Link>
           ))}
+          
+          {/* Dark Mode Toggle in mobile menu */}
+          <div className="flex items-center justify-between rounded-md p-2 text-foreground hover:bg-accent">
+            <span className="flex items-center gap-2">
+              {isDark ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
+              {isDark ? "Dark Mode" : "Light Mode"}
+            </span>
+            <Switch 
+              checked={isDark}
+              onCheckedChange={() => setTheme(isDark ? "light" : "dark")}
+              aria-label="Toggle dark mode"
+            />
+          </div>
         </nav>
       </div>
     </header>
