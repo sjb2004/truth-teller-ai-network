@@ -1,6 +1,7 @@
 
 import { useEffect, useRef } from 'react';
 import { cn } from '@/lib/utils';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface Node {
   id: string;
@@ -32,6 +33,14 @@ const NetworkGraph = ({
   onNodeClick
 }: NetworkGraphProps) => {
   const svgRef = useRef<SVGSVGElement>(null);
+  const isMobile = useIsMobile();
+  
+  // Scale down node positions for mobile
+  const scaledNodes = nodes.map(node => ({
+    ...node,
+    x: isMobile ? node.x * 0.8 : node.x,
+    y: isMobile ? node.y * 0.8 : node.y
+  }));
 
   useEffect(() => {
     // In a real implementation, this would use D3.js or a similar library
@@ -50,16 +59,20 @@ const NetworkGraph = ({
   };
 
   const getNodeBorder = (node: Node) => {
-    return node.state !== undefined ? 'stroke-2 stroke-gray-800' : 'stroke-1 stroke-gray-400';
+    return node.state !== undefined ? 'stroke-2 stroke-gray-800 dark:stroke-gray-200' : 'stroke-1 stroke-gray-400';
   };
 
+  const nodeSize = isMobile ? 25 : 30;
+  const fontSize = isMobile ? "text-[10px]" : "text-xs";
+  const smallFontSize = isMobile ? "text-[8px]" : "text-[10px]";
+
   return (
-    <div className={cn("w-full h-full min-h-[300px] bg-white rounded-md p-4", className)}>
+    <div className={cn("w-full h-full min-h-[300px] bg-white dark:bg-gray-800 rounded-md p-4", className)}>
       <svg ref={svgRef} className="w-full h-full">
         {/* Edges */}
         {edges.map((edge, i) => {
-          const fromNode = nodes.find(n => n.id === edge.from);
-          const toNode = nodes.find(n => n.id === edge.to);
+          const fromNode = scaledNodes.find(n => n.id === edge.from);
+          const toNode = scaledNodes.find(n => n.id === edge.to);
           
           if (!fromNode || !toNode) return null;
           
@@ -70,13 +83,13 @@ const NetworkGraph = ({
               y1={fromNode.y}
               x2={toNode.x}
               y2={toNode.y}
-              className="graph-edge stroke-gray-300 stroke-[2px]"
+              className="graph-edge stroke-gray-300 dark:stroke-gray-600 stroke-[2px]"
             />
           );
         })}
         
         {/* Nodes */}
-        {nodes.map(node => (
+        {scaledNodes.map(node => (
           <g
             key={node.id}
             className={cn("graph-node", interactive && "cursor-pointer")}
@@ -85,7 +98,7 @@ const NetworkGraph = ({
             <circle
               cx={node.x}
               cy={node.y}
-              r={30}
+              r={nodeSize}
               className={cn(getNodeColor(node), getNodeBorder(node))}
             />
             <text
@@ -93,17 +106,17 @@ const NetworkGraph = ({
               y={node.y}
               textAnchor="middle"
               dominantBaseline="middle"
-              className="fill-white text-xs font-medium"
+              className={`fill-white ${fontSize} font-medium`}
             >
               {node.label}
             </text>
             {node.probability !== undefined && (
               <text
                 x={node.x}
-                y={node.y + 15}
+                y={node.y + (isMobile ? 12 : 15)}
                 textAnchor="middle"
                 dominantBaseline="middle"
-                className="fill-white text-[10px]"
+                className={`fill-white ${smallFontSize}`}
               >
                 {(node.probability * 100).toFixed(0)}%
               </text>

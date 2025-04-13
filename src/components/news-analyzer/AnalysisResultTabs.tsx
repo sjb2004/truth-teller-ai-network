@@ -4,12 +4,16 @@ import { type AnalysisResult } from '@/utils/analysisUtils';
 import { AlertTriangle, CheckCircle, Info } from 'lucide-react';
 import NetworkGraph from '../NetworkGraph';
 import { getVerdictDetails } from '@/utils/analysisUtils';
+import { useIsMobile } from '@/hooks/use-mobile';
+import '../news-analyzer/styles.css';
 
 interface AnalysisResultTabsProps {
   result: AnalysisResult | null;
 }
 
 const AnalysisResultTabs = ({ result }: AnalysisResultTabsProps) => {
+  const isMobile = useIsMobile();
+  
   if (!result) return null;
 
   const { verdict, color } = getVerdictDetails(result.probability);
@@ -23,15 +27,15 @@ const AnalysisResultTabs = ({ result }: AnalysisResultTabsProps) => {
   return (
     <Tabs defaultValue="summary" className="w-full">
       <TabsList className="grid w-full grid-cols-3">
-        <TabsTrigger value="summary">Summary</TabsTrigger>
-        <TabsTrigger value="factors">Contributing Factors</TabsTrigger>
-        <TabsTrigger value="network">Bayesian Network</TabsTrigger>
+        <TabsTrigger value="summary" className="text-xs md:text-sm">Summary</TabsTrigger>
+        <TabsTrigger value="factors" className="text-xs md:text-sm">Contributing Factors</TabsTrigger>
+        <TabsTrigger value="network" className="text-xs md:text-sm">Bayesian Network</TabsTrigger>
       </TabsList>
       
       <TabsContent value="summary" className="space-y-4 pt-4">
         <div className="flex items-center gap-2 justify-center">
           {getVerdictIcon(result.probability)}
-          <span className={`text-2xl font-bold ${color}`}>
+          <span className={`text-xl md:text-2xl font-bold ${color}`}>
             {verdict}
           </span>
         </div>
@@ -56,7 +60,7 @@ const AnalysisResultTabs = ({ result }: AnalysisResultTabsProps) => {
         <div className="space-y-3">
           {result.factorsContributing.map((factor, i) => (
             <div key={i} className="space-y-1">
-              <div className="flex justify-between text-sm">
+              <div className="flex justify-between text-xs md:text-sm">
                 <span>{factor.factor}</span>
                 <span>{(factor.score * 100).toFixed(0)}%</span>
               </div>
@@ -79,7 +83,7 @@ const AnalysisResultTabs = ({ result }: AnalysisResultTabsProps) => {
         <NetworkGraph
           nodes={result.evidenceNodes}
           edges={result.evidenceEdges} 
-          className="h-[250px]"
+          className="h-[250px] md:h-[300px]"
         />
         <p className="text-xs text-muted-foreground mt-2">
           This visualization shows how different factors influence the final verdict through the Bayesian Network.

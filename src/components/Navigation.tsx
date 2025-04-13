@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Database, BookOpen, Home, Info, FileText, MenuIcon, X, Sun, Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -24,7 +24,7 @@ const Navigation = () => {
       <div className="container flex h-16 items-center justify-between">
         <div className="flex items-center gap-2">
           <FileText className="h-6 w-6 text-truth-600" />
-          <span className="text-xl font-bold tracking-tight">News or Nonsense?</span>
+          <span className="text-xl font-bold tracking-tight truncate">News or Nonsense?</span>
         </div>
         
         {/* Desktop Navigation */}

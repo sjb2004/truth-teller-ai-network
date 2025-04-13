@@ -56,7 +56,7 @@ const NewsAnalyzer = () => {
     <Card className="w-full">
       <CardHeader>
         <CardTitle>News or Nonsense? Analyzer</CardTitle>
-        <CardDescription>
+        <CardDescription className="text-sm">
           Enter a news article or content to analyze its authenticity using Bayesian Networks
         </CardDescription>
       </CardHeader>
@@ -76,7 +76,7 @@ const NewsAnalyzer = () => {
           <AnalysisResultTabs result={result} />
         </div>
       </CardContent>
-      <CardFooter className="flex justify-between">
+      <CardFooter className="flex justify-between flex-wrap gap-2">
         <Button variant="outline" onClick={resetAnalysis} disabled={isAnalyzing || !newsText}>
           <RefreshCw className="mr-2 h-4 w-4" />
           Reset

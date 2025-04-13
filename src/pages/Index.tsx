@@ -5,8 +5,11 @@ import { ArrowRight, CheckCircle, Database, FileText } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import NetworkGraph from "@/components/NetworkGraph";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const Index = () => {
+  const isMobile = useIsMobile();
+  
   // Simple demo network for the hero section
   const demoNodes = [
     { id: 'n1', label: 'Source', x: 100, y: 100 },
@@ -47,19 +50,19 @@ const Index = () => {
         <section className="relative overflow-hidden bg-grid-pattern py-20 md:py-32">
           <div className="container relative z-10">
             <div className="mx-auto max-w-4xl text-center">
-              <h1 className="animate-fadeIn text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
+              <h1 className="animate-fadeIn text-3xl md:text-4xl lg:text-6xl font-bold tracking-tight">
                 <span className="text-truth-600">News</span> or <span className="text-truth-600">Nonsense</span>?
               </h1>
-              <p className="mt-6 text-lg text-muted-foreground md:text-xl">
+              <p className="mt-4 md:mt-6 text-base md:text-lg text-muted-foreground lg:text-xl px-2 md:px-0">
                 Using Bayesian Networks to detect fake news with explainable AI. A transparent approach to fighting misinformation online.
               </p>
-              <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-                <Button asChild size="lg" className="gap-2">
+              <div className="mt-6 md:mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+                <Button asChild size={isMobile ? "default" : "lg"} className="gap-2">
                   <Link to="/demo">
                     Try Demo <ArrowRight className="h-4 w-4" />
                   </Link>
                 </Button>
-                <Button asChild variant="outline" size="lg">
+                <Button asChild variant="outline" size={isMobile ? "default" : "lg"}>
                   <Link to="/methodology">Learn How It Works</Link>
                 </Button>
               </div>
@@ -68,12 +71,12 @@ const Index = () => {
         </section>
 
         {/* Network Visualization */}
-        <section className="bg-muted py-20">
+        <section className="bg-muted py-12 md:py-20">
           <div className="container">
             <div className="mx-auto max-w-5xl">
               <div className="grid gap-8 lg:grid-cols-2">
                 <div className="flex flex-col justify-center">
-                  <h2 className="text-3xl font-bold tracking-tight">
+                  <h2 className="text-2xl md:text-3xl font-bold tracking-tight">
                     See How the <span className="text-truth-600">Network</span> Thinks
                   </h2>
                   <p className="mt-4 text-muted-foreground">
@@ -86,7 +89,7 @@ const Index = () => {
                   </div>
                 </div>
                 <div className="bg-background rounded-lg border shadow-sm p-4">
-                  <NetworkGraph nodes={demoNodes} edges={demoEdges} className="h-[300px]" />
+                  <NetworkGraph nodes={demoNodes} edges={demoEdges} className="h-[250px] md:h-[300px]" />
                 </div>
               </div>
             </div>
@@ -94,20 +97,20 @@ const Index = () => {
         </section>
 
         {/* Features */}
-        <section className="py-20">
+        <section className="py-12 md:py-20">
           <div className="container">
-            <h2 className="text-center text-3xl font-bold tracking-tight mb-12">
+            <h2 className="text-center text-2xl md:text-3xl font-bold tracking-tight mb-8 md:mb-12">
               Key Features
             </h2>
             <div className="mx-auto max-w-5xl">
-              <div className="grid gap-8 md:grid-cols-3">
+              <div className="grid gap-6 md:gap-8 md:grid-cols-3">
                 {features.map((feature, i) => (
-                  <div key={i} className="flex flex-col items-center text-center">
+                  <div key={i} className="flex flex-col items-center text-center px-4">
                     <div className="mb-4 rounded-full bg-muted p-3">
                       <feature.icon className="h-6 w-6 text-truth-600" />
                     </div>
-                    <h3 className="mb-2 text-xl font-medium">{feature.title}</h3>
-                    <p className="text-muted-foreground">{feature.description}</p>
+                    <h3 className="mb-2 text-lg md:text-xl font-medium">{feature.title}</h3>
+                    <p className="text-muted-foreground text-sm md:text-base">{feature.description}</p>
                   </div>
                 ))}
               </div>
@@ -116,15 +119,15 @@ const Index = () => {
         </section>
         
         {/* CTA */}
-        <section className="bg-truth-600 py-16">
-          <div className="container text-center">
-            <h2 className="text-3xl font-bold text-white">
+        <section className="bg-truth-600 py-12 md:py-16">
+          <div className="container text-center px-4 md:px-0">
+            <h2 className="text-2xl md:text-3xl font-bold text-white">
               Ready to analyze news content?
             </h2>
-            <p className="mx-auto mt-4 max-w-2xl text-truth-100">
+            <p className="mx-auto mt-4 max-w-2xl text-truth-100 text-sm md:text-base">
               Try our interactive demo to see how the system evaluates news articles and detects potential misinformation.
             </p>
-            <Button asChild size="lg" variant="secondary" className="mt-8">
+            <Button asChild size={isMobile ? "default" : "lg"} variant="secondary" className="mt-6 md:mt-8">
               <Link to="/demo">
                 Try the Demo <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
