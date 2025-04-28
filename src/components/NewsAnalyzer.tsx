@@ -55,21 +55,11 @@ const NewsAnalyzer = () => {
   const handleExport = () => {
     if (!result || !newsText) return;
 
-    const summary = generateAnalysisSummary(newsText, result);
-    const blob = new Blob([summary], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
+    generateAnalysisSummary(newsText, result);
     
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'news-analysis-report.txt';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-
     toast({
       title: "Export Successful",
-      description: "Analysis report has been downloaded.",
+      description: "Analysis report has been downloaded as PDF.",
     });
   };
 
