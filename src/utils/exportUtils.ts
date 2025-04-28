@@ -2,6 +2,44 @@
 import { AnalysisResult, getVerdictDetails } from './analysisUtils';
 import jsPDF from 'jspdf';
 
+const drawNetworkGraph = (doc: jsPDF, nodes: any[], edges: any[], startY: number): number => {
+  const pageWidth = doc.internal.pageSize.width;
+  const margin = 20;
+  const graphWidth = pageWidth - (2 * margin);
+  const graphHeight = 150;
+  
+  // Scale node positions to fit in the PDF
+  const scaledNodes = nodes.map(node => ({
+    ...node,
+    x: margin + (node.x * graphWidth) / 500, // Assuming original width is 500
+    y: startY + (node.y * graphHeight) / 300 // Assuming original height is 300
+  }));
+
+  // Draw edges
+  edges.forEach(edge => {
+    const fromNode = scaledNodes.find(n => n.id === edge.from);
+    const toNode = scaledNodes.find(n => n.id === edge.to);
+    if (fromNode && toNode) {
+      doc.setDrawColor(200, 200, 200);
+      doc.setLineWidth(0.5);
+      doc.line(fromNode.x, fromNode.y, toNode.x, toNode.y);
+    }
+  });
+
+  // Draw nodes
+  scaledNodes.forEach(node => {
+    // Draw circle
+    doc.setFillColor(70, 130, 180);
+    doc.circle(node.x, node.y, 4, 'F');
+    
+    // Draw label
+    doc.setFontSize(8);
+    doc.text(node.label, node.x + 5, node.y);
+  });
+
+  return startY + graphHeight + 10; // Return the new Y position after the graph
+};
+
 export const generateAnalysisSummary = (newsText: string, result: AnalysisResult): void => {
   const { verdict } = getVerdictDetails(result.probability);
   
@@ -41,6 +79,12 @@ export const generateAnalysisSummary = (newsText: string, result: AnalysisResult
     yPos += 7;
   });
   
+  // Network Visualization section
+  yPos += 15;
+  doc.text('Bayesian Network Visualization:', 20, yPos);
+  yPos += 10;
+  yPos = drawNetworkGraph(doc, result.evidenceNodes, result.evidenceEdges, yPos);
+  
   // Network Analysis section
   yPos += 8;
   doc.text('Network Analysis:', 20, yPos);
@@ -56,3 +100,4 @@ export const generateAnalysisSummary = (newsText: string, result: AnalysisResult
   // Save the PDF
   doc.save('news-analysis-report.pdf');
 };
+
