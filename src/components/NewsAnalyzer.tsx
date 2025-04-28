@@ -1,12 +1,12 @@
-
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/components/ui/use-toast';
-import { RefreshCw } from 'lucide-react';
+import { RefreshCw, FileExport } from 'lucide-react';
 
 import { analyzeNewsContent, type AnalysisResult } from '@/utils/analysisUtils';
+import { generateAnalysisSummary } from '@/utils/exportUtils';
 import ExampleSnippets from './news-analyzer/ExampleSnippets';
 import AnalysisProgress from './news-analyzer/AnalysisProgress';
 import AnalysisResultTabs from './news-analyzer/AnalysisResultTabs';
@@ -52,6 +52,27 @@ const NewsAnalyzer = () => {
     setResult(null);
   };
 
+  const handleExport = () => {
+    if (!result || !newsText) return;
+
+    const summary = generateAnalysisSummary(newsText, result);
+    const blob = new Blob([summary], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'news-analysis-report.txt';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    toast({
+      title: "Export Successful",
+      description: "Analysis report has been downloaded.",
+    });
+  };
+
   return (
     <Card className="w-full">
       <CardHeader>
@@ -77,10 +98,18 @@ const NewsAnalyzer = () => {
         </div>
       </CardContent>
       <CardFooter className="flex justify-between flex-wrap gap-2">
-        <Button variant="outline" onClick={resetAnalysis} disabled={isAnalyzing || !newsText}>
-          <RefreshCw className="mr-2 h-4 w-4" />
-          Reset
-        </Button>
+        <div className="flex gap-2">
+          <Button variant="outline" onClick={resetAnalysis} disabled={isAnalyzing || !newsText}>
+            <RefreshCw className="mr-2 h-4 w-4" />
+            Reset
+          </Button>
+          {result && (
+            <Button variant="secondary" onClick={handleExport}>
+              <FileExport className="mr-2 h-4 w-4" />
+              Export Report
+            </Button>
+          )}
+        </div>
         <Button onClick={analyzeNews} disabled={isAnalyzing || !newsText}>
           {isAnalyzing ? 'Analyzing...' : 'Analyze Article'}
         </Button>
