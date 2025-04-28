@@ -3,9 +3,9 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/components/ui/use-toast';
-import { RefreshCw, FileExport } from 'lucide-react';
+import { RefreshCw, FileText } from 'lucide-react';
 
-import { analyzeNewsContent, type AnalysisResult } from '@/utils/analysisUtils';
+import { analyzeNewsContent, type AnalysisResult, getVerdictDetails } from '@/utils/analysisUtils';
 import { generateAnalysisSummary } from '@/utils/exportUtils';
 import ExampleSnippets from './news-analyzer/ExampleSnippets';
 import AnalysisProgress from './news-analyzer/AnalysisProgress';
@@ -105,7 +105,7 @@ const NewsAnalyzer = () => {
           </Button>
           {result && (
             <Button variant="secondary" onClick={handleExport}>
-              <FileExport className="mr-2 h-4 w-4" />
+              <FileText className="mr-2 h-4 w-4" />
               Export Report
             </Button>
           )}

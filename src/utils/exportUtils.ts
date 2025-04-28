@@ -1,5 +1,5 @@
 
-import { AnalysisResult } from './analysisUtils';
+import { AnalysisResult, getVerdictDetails } from './analysisUtils';
 
 export const generateAnalysisSummary = (newsText: string, result: AnalysisResult): string => {
   const { verdict } = getVerdictDetails(result.probability);
